@@ -7,7 +7,7 @@ import re
 import unicodedata
 from pathlib import Path
 
-from google.oauth2 import service_account
+import google.auth
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 
@@ -60,10 +60,8 @@ def parse_metadata(text):
 
 
 def service():
-    info = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
-    credentials = service_account.Credentials.from_service_account_info(
-        info,
-        scopes=["https://www.googleapis.com/auth/drive.readonly"],
+    credentials, _ = google.auth.default(
+        scopes=["https://www.googleapis.com/auth/drive.readonly"]
     )
     return build("drive", "v3", credentials=credentials, cache_discovery=False)
 
