@@ -14,6 +14,8 @@ Een verzameling eigen liedteksten, songs en akkoorden.
   <a href="{{ site.baseurl }}/akkoorden/">Met akkoorden</a>
 </nav>
 
+Over hoe deze liedjes worden geschreven: [Uitgangspunten]({{ site.baseurl }}/uitgangspunten/).
+
 De teksten op deze site zijn auteursrechtelijk beschermd. Publicatie betekent niet dat ze vrij hergebruikt mogen worden.
 
 [Lees meer over auteursrecht en gebruik]({{ site.baseurl }}/rechten/)
