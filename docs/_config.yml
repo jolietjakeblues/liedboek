@@ -1,0 +1,8 @@
+title: Liedboek
+description: Liedteksten, songs en akkoorden van Joop Vanderheiden.
+baseurl: /liedboek
+url: https://jolietjakeblues.github.io
+markdown: kramdown
+
+author: Joop Vanderheiden
+robots: noindex, noarchive

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="{{ site.robots }}">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="{{ site.description }}">
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ site.baseurl }}/">Liedboek</a>
+    <nav aria-label="Hoofdnavigatie">
+      <a href="{{ site.baseurl }}/liedjes/">Liedjes</a>
+      <a href="{{ site.baseurl }}/onderwerpen/">Onderwerpen</a>
+      <a href="{{ site.baseurl }}/over/">Over</a>
+    </nav>
+  </header>
+
+  <main>
+    {{ content }}
+  </main>
+
+  <footer>
+    <p>© Joop Vanderheiden. Alle rechten voorbehouden.</p>
+    <p><a href="{{ site.baseurl }}/rechten/">Auteursrecht en gebruik</a></p>
+  </footer>
+</body>
+</html>
