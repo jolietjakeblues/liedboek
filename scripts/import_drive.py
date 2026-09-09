@@ -23,6 +23,19 @@ META_RE = re.compile(
     re.I | re.S,
 )
 
+STATUS_LABELS = {
+    "concept": "Concept",
+    "werkversie": "Werkversie",
+    "definitief": "Definitief",
+}
+
+LANGUAGE_LABELS = {
+    "nl": "Nederlands",
+    "en": "Engels",
+    "de": "Duits",
+    "fr": "Frans",
+}
+
 
 def slugify(value):
     value = unicodedata.normalize("NFKD", value)
@@ -36,8 +49,20 @@ def yes(value):
     return str(value).strip().lower() in {"ja", "yes", "true", "1", "y"}
 
 
+def parse_tags(value):
+    return [x.strip() for x in value.split(",") if x.strip()]
+
+
 def parse_metadata(text):
-    meta = {"onderwerpen": [], "akkoorden": False, "buma": False, "jaar": ""}
+    meta = {
+        "tags": [],
+        "akkoorden": False,
+        "buma": False,
+        "jaar": "",
+        "taal": "",
+        "status": "",
+    }
+
     match = META_RE.match(text)
     if not match:
         return meta, text.strip()
@@ -48,14 +73,20 @@ def parse_metadata(text):
         key, value = line.split(":", 1)
         key = key.strip().lower()
         value = value.strip()
-        if key == "onderwerpen":
-            meta["onderwerpen"] = [x.strip() for x in value.split(",") if x.strip()]
+
+        if key in {"tags", "onderwerpen"}:
+            meta["tags"] = parse_tags(value)
         elif key == "akkoorden":
             meta["akkoorden"] = yes(value)
         elif key == "buma":
             meta["buma"] = yes(value)
         elif key == "jaar":
             meta["jaar"] = value
+        elif key == "taal":
+            meta["taal"] = value.lower()
+        elif key == "status":
+            meta["status"] = value.lower()
+
     return meta, text[match.end():].strip()
 
 
@@ -73,6 +104,7 @@ def list_docs(api, folder_id):
     )
     out = []
     token = None
+
     while True:
         response = api.files().list(
             q=q,
@@ -107,15 +139,29 @@ def fm(value):
 
 
 def song_page(item):
-    topic_html = ""
-    if item["onderwerpen"]:
+    tags_html = ""
+    if item["tags"]:
         links = " · ".join(
-            f'<a href="{{{{ site.baseurl }}}}/onderwerpen/{slugify(topic)}/">{html.escape(topic)}</a>'
-            for topic in item["onderwerpen"]
+            f'<a href="{{{{ site.baseurl }}}}/onderwerpen/{slugify(tag)}/">{html.escape(tag)}</a>'
+            for tag in item["tags"]
         )
-        topic_html = f'<p class="meta">Onderwerpen: {links}</p>'
+        tags_html = f'<p class="meta">Onderwerpen: {links}</p>'
 
-    year_html = f'<p class="meta">{html.escape(item["jaar"])}</p>' if item["jaar"] else ""
+    year_html = (
+        f'<p class="meta">Jaar: {html.escape(item["jaar"])}</p>'
+        if item["jaar"] else ""
+    )
+
+    language_html = ""
+    if item["taal"]:
+        language = LANGUAGE_LABELS.get(item["taal"], item["taal"])
+        language_html = f'<p class="meta">Taal: {html.escape(language)}</p>'
+
+    status_html = ""
+    if item["status"]:
+        status = STATUS_LABELS.get(item["status"], item["status"])
+        status_html = f'<p class="meta">Status: {html.escape(status)}</p>'
+
     buma_html = (
         '<p class="meta">Dit werk is aangemeld bij BumaStemra.</p>'
         if item["buma"] else ""
@@ -128,8 +174,10 @@ def song_page(item):
         f'permalink: /liedjes/{item["slug"]}/\n'
         "---\n\n"
         f'<pre class="lyrics">{html.escape(item["text"])}</pre>\n\n'
-        f'{topic_html}\n'
+        f'{tags_html}\n'
         f'{year_html}\n'
+        f'{language_html}\n'
+        f'{status_html}\n'
         '<p class="rights">© Joop Vanderheiden. Alle rechten voorbehouden.</p>\n'
         f'{buma_html}\n'
     )
@@ -154,7 +202,12 @@ def write_index(items):
         lines.append(
             f'<li data-title="{folded}"><a href="{{{{ site.baseurl }}}}/liedjes/{item["slug"]}/">{title}</a></li>'
         )
-    lines += ["</ul>", "", '<script src="{{ site.baseurl }}/assets/search.js"></script>', ""]
+    lines += [
+        "</ul>",
+        "",
+        '<script src="{{ site.baseurl }}/assets/search.js"></script>',
+        "",
+    ]
     (SONGS / "index.md").write_text("\n".join(lines), encoding="utf-8")
 
 
@@ -188,8 +241,8 @@ def write_topics(items):
 
     by_topic = {}
     for item in items:
-        for topic in item["onderwerpen"]:
-            by_topic.setdefault(topic, []).append(item)
+        for tag in item["tags"]:
+            by_topic.setdefault(tag, []).append(item)
 
     overview = [
         "---",
@@ -207,7 +260,9 @@ def write_topics(items):
     else:
         for topic in sorted(by_topic, key=str.casefold):
             slug = slugify(topic)
-            overview.append(f'- [{topic}]({{{{ site.baseurl }}}}/onderwerpen/{slug}/)')
+            overview.append(
+                f'- [{topic}]({{{{ site.baseurl }}}}/onderwerpen/{slug}/)'
+            )
             page = [
                 "---",
                 "layout: default",
@@ -225,7 +280,10 @@ def write_topics(items):
             page.append("")
             (TOPICS / f"{slug}.md").write_text("\n".join(page), encoding="utf-8")
 
-    (DOCS / "onderwerpen.md").write_text("\n".join(overview) + "\n", encoding="utf-8")
+    (DOCS / "onderwerpen.md").write_text(
+        "\n".join(overview) + "\n",
+        encoding="utf-8",
+    )
 
 
 def main():
@@ -261,7 +319,15 @@ def main():
     write_topics(items)
 
     public_search = [
-        {"title": x["title"], "url": f"/liedjes/{x['slug']}/"} for x in items
+        {
+            "title": x["title"],
+            "url": f"/liedjes/{x['slug']}/",
+            "tags": x["tags"],
+            "taal": x["taal"],
+            "status": x["status"],
+            "jaar": x["jaar"],
+        }
+        for x in items
     ]
     (DATA / "songs.json").write_text(
         json.dumps(public_search, ensure_ascii=False, indent=2),
