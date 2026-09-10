@@ -62,7 +62,6 @@ Zie `PUBLICEREN.md` voor dagelijks gebruik.
 - Google Drive is de bron.
 - Alleen `gepubliceerd` wordt gedeeld met het service-account.
 - GitHub Actions gebruikt Google Workload Identity Federation / OIDC.
-- Er is geen Google service-account JSON-key nodig.
 - Het enige vereiste repository secret is `GOOGLE_DRIVE_FOLDER_ID`.
 - Liedteksten worden niet als bronbestanden in de GitHub-repository opgeslagen.
 - De site vraagt zoekmachines standaard om niet te indexeren of cachen.
