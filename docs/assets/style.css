@@ -69,10 +69,16 @@ h2 {
   margin: 2rem 0 3rem;
 }
 
+/* Liedpagina's mogen iets breder zijn, vooral voor akkoorden. */
+.song {
+  width: min(900px, calc(100vw - 2.5rem));
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
 .song .lyrics {
   white-space: pre-wrap;
-  overflow-wrap: normal;
-  overflow-x: auto;
+  overflow-wrap: break-word;
   margin: 0;
   padding: 0;
   border: 0;
@@ -81,6 +87,16 @@ h2 {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: .94rem;
   line-height: 1.65;
+  tab-size: 4;
+}
+
+/* Akkoordposities blijven intact. Te brede regels scrollen horizontaal. */
+.song .lyrics.has-chords {
+  white-space: pre;
+  overflow-wrap: normal;
+  overflow-x: auto;
+  max-width: 100%;
+  padding-bottom: .45rem;
 }
 
 .rights,
@@ -98,23 +114,133 @@ h2 {
   margin-top: 3rem;
 }
 
+.song-tools {
+  margin-bottom: 1.5rem;
+}
+
 .search {
   width: 100%;
   box-sizing: border-box;
   font: inherit;
-  padding: .7rem .8rem;
+  padding: .75rem .85rem;
   border: 1px solid #bbb;
   border-radius: .25rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: .8rem;
+}
+
+.song-filters {
+  display: flex;
+  gap: .45rem;
+  flex-wrap: wrap;
+}
+
+.filter {
+  appearance: none;
+  border: 1px solid #bbb;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: .84rem;
+  padding: .32rem .72rem;
+  cursor: pointer;
+}
+
+.filter:hover,
+.filter:focus-visible {
+  border-color: #555;
+}
+
+.filter.is-active {
+  background: #202124;
+  border-color: #202124;
+  color: #fff;
+}
+
+.alphabet {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem .8rem;
+  margin: 1.6rem 0 2.2rem;
+  padding-bottom: .7rem;
+  border-bottom: 1px solid #e3e3e3;
+  font-size: .9rem;
+}
+
+.alphabet a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.song-group {
+  scroll-margin-top: 1rem;
+}
+
+.letter-heading {
+  margin: 2.2rem 0 .55rem;
+  padding-bottom: .25rem;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.55rem;
 }
 
 .song-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-.song-list li {
-  padding: .3rem 0;
+.song-list-item {
+  padding: .62rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.song-title {
+  font-weight: 600;
+}
+
+.song-summary {
+  margin-top: .12rem;
+  color: #666;
+  font-size: .78rem;
+  line-height: 1.45;
+}
+
+.song-summary a {
+  color: inherit;
+}
+
+.song-empty {
+  color: #666;
+  font-style: italic;
+}
+
+/* 404 */
+.not-found {
+  max-width: 620px;
+  padding-top: 2rem;
+}
+
+.error-code {
+  margin: 0 0 .45rem;
+  color: #888;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: .85rem;
+  letter-spacing: .15em;
+}
+
+.not-found h1 {
+  margin-bottom: 1rem;
+}
+
+.not-found-actions {
+  display: flex;
+  gap: .8rem 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.not-found-actions a:first-child {
+  font-weight: 700;
 }
 
 footer {
@@ -140,5 +266,33 @@ footer p {
 
   main {
     padding-top: 2.5rem;
+  }
+
+  .song .lyrics.has-chords {
+    font-size: .80rem;
+  }
+
+  .song-summary {
+    font-size: .76rem;
+  }
+}
+
+@media print {
+  .site-header,
+  footer,
+  .back {
+    display: none;
+  }
+
+  main,
+  .song {
+    width: 100%;
+    margin: 0;
+    transform: none;
+  }
+
+  .song .lyrics.has-chords {
+    font-size: 9pt;
+    overflow: visible;
   }
 }
