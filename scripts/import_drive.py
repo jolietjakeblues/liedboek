@@ -45,6 +45,15 @@ def slugify(value):
     return value.strip("-") or "lied"
 
 
+def first_letter(value):
+    normalized = unicodedata.normalize("NFKD", value)
+    ascii_value = normalized.encode("ascii", "ignore").decode("ascii").strip()
+    if not ascii_value:
+        return "#"
+    char = ascii_value[0].upper()
+    return char if "A" <= char <= "Z" else "#"
+
+
 def yes(value):
     return str(value).strip().lower() in {"ja", "yes", "true", "1", "y"}
 
@@ -138,13 +147,17 @@ def fm(value):
     return str(value).replace("\\", "\\\\").replace('"', '\\"')
 
 
+def topic_link(tag):
+    return (
+        f'<a href="{{{{ site.baseurl }}}}/onderwerpen/{slugify(tag)}/">'
+        f"{html.escape(tag)}</a>"
+    )
+
+
 def song_page(item):
     tags_html = ""
     if item["tags"]:
-        links = " · ".join(
-            f'<a href="{{{{ site.baseurl }}}}/onderwerpen/{slugify(tag)}/">{html.escape(tag)}</a>'
-            for tag in item["tags"]
-        )
+        links = " · ".join(topic_link(tag) for tag in item["tags"])
         tags_html = f'<p class="meta">Onderwerpen: {links}</p>'
 
     year_html = (
@@ -167,23 +180,41 @@ def song_page(item):
         if item["buma"] else ""
     )
 
+    lyrics_class = "lyrics has-chords" if item["akkoorden"] else "lyrics"
+
     return (
         "---\n"
         "layout: song\n"
         f'title: "{fm(item["title"])}"\n'
         f'permalink: /liedjes/{item["slug"]}/\n'
         "---\n\n"
-        f'<pre class="lyrics">{html.escape(item["text"])}</pre>\n\n'
-        f'{tags_html}\n'
-        f'{year_html}\n'
-        f'{language_html}\n'
-        f'{status_html}\n'
+        f'<pre class="{lyrics_class}">{html.escape(item["text"])}</pre>\n\n'
+        f"{tags_html}\n"
+        f"{year_html}\n"
+        f"{language_html}\n"
+        f"{status_html}\n"
         '<p class="rights">© Joop Vanderheiden. Alle rechten voorbehouden.</p>\n'
-        f'{buma_html}\n'
+        f"{buma_html}\n"
     )
 
 
+def compact_meta(item):
+    parts = []
+    if item["taal"]:
+        parts.append(LANGUAGE_LABELS.get(item["taal"], item["taal"]))
+    if item["jaar"]:
+        parts.append(html.escape(item["jaar"]))
+    if item["akkoorden"]:
+        parts.append("met akkoorden")
+    return parts
+
+
 def write_index(items):
+    ordered = sorted(items, key=lambda x: x["title"].casefold())
+    groups = {}
+    for item in ordered:
+        groups.setdefault(first_letter(item["title"]), []).append(item)
+
     lines = [
         "---",
         "layout: default",
@@ -193,17 +224,59 @@ def write_index(items):
         "",
         "# Liedjes",
         "",
+        '<div class="song-tools">',
         '<input id="song-search" class="search" type="search" placeholder="Zoek een lied..." aria-label="Zoek een lied">',
-        '<ul id="song-list" class="song-list">',
+        '<div class="song-filters" role="group" aria-label="Filter liedjes">',
+        '<button type="button" class="filter is-active" data-filter="all">Alle</button>',
+        '<button type="button" class="filter" data-filter="nl">Nederlands</button>',
+        '<button type="button" class="filter" data-filter="en">Engels</button>',
+        '<button type="button" class="filter" data-filter="chords">Met akkoorden</button>',
+        "</div>",
+        "</div>",
+        "",
+        '<nav class="alphabet" aria-label="Alfabet">',
     ]
-    for item in sorted(items, key=lambda x: x["title"].casefold()):
-        title = html.escape(item["title"])
-        folded = html.escape(item["title"].casefold())
-        lines.append(
-            f'<li data-title="{folded}"><a href="{{{{ site.baseurl }}}}/liedjes/{item["slug"]}/">{title}</a></li>'
-        )
+
+    for letter in groups:
+        lines.append(f'<a href="#letter-{letter.lower()}">{letter}</a>')
+    lines += ["</nav>", "", '<div id="song-list" class="song-groups">']
+
+    for letter, group in groups.items():
+        lines += [
+            f'<section class="song-group" data-letter="{letter}">',
+            f'<h2 id="letter-{letter.lower()}" class="letter-heading">{letter}</h2>',
+            '<ul class="song-list">',
+        ]
+        for item in group:
+            title = html.escape(item["title"])
+            folded = html.escape(item["title"].casefold(), quote=True)
+            tags_search = html.escape(" ".join(item["tags"]).casefold(), quote=True)
+            language = html.escape(item["taal"], quote=True)
+            chords = "true" if item["akkoorden"] else "false"
+
+            meta_parts = compact_meta(item)
+            meta_bits = [html.escape(part) for part in meta_parts]
+            if item["tags"]:
+                meta_bits.extend(topic_link(tag) for tag in item["tags"][:3])
+
+            lines += [
+                (
+                    f'<li class="song-list-item" data-title="{folded}" '
+                    f'data-tags="{tags_search}" data-language="{language}" '
+                    f'data-chords="{chords}">'
+                ),
+                f'<a class="song-title" href="{{{{ site.baseurl }}}}/liedjes/{item["slug"]}/">{title}</a>',
+            ]
+            if meta_bits:
+                lines.append(
+                    '<div class="song-summary">' + " · ".join(meta_bits) + "</div>"
+                )
+            lines.append("</li>")
+        lines += ["</ul>", "</section>"]
+
     lines += [
-        "</ul>",
+        "</div>",
+        '<p id="song-empty" class="song-empty" hidden>Geen liedjes gevonden.</p>',
         "",
         '<script src="{{ site.baseurl }}/assets/search.js"></script>',
         "",
@@ -326,6 +399,7 @@ def main():
             "taal": x["taal"],
             "status": x["status"],
             "jaar": x["jaar"],
+            "akkoorden": x["akkoorden"],
         }
         for x in items
     ]
