@@ -1,22 +1,50 @@
-# Installatie van deze update
+# Installeren
 
-Deze map bevat alleen de bestanden die gewijzigd of toegevoegd moeten worden.
+Deze update bouwt drie afgesproken functies:
 
-Vervang in de repository:
+1. **Dwarsverbanden** op basis van bestaande tags.
+2. **Schrijfnotities** als optioneel blok per Google Doc.
+3. Een **push-trigger op `main`**, zodat een merge meteen een nieuwe Pages-build start.
 
+## Bestanden vervangen
+
+Kopieer deze bestanden naar dezelfde paden in de repository:
+
+- `.github/workflows/build-liedboek.yml`
 - `scripts/import_drive.py`
-- `docs/assets/search.js`
+- `docs/_layouts/default.html`
+- `docs/index.md`
 - `docs/assets/style.css`
-- `docs/404.html`
+- `docs/dwarsverbanden.md`
+- `PUBLICEREN.md`
 
-`METADATA-VOORSTELLEN.md` is een werkdocument voor het handmatig bijwerken van de Google Docs en hoeft niet per se in de repository.
+Werk bij voorkeur in een nieuwe branch en maak daarna een pull request naar `main`.
 
-Na merge naar `main`:
+## Test na de merge
 
-1. start `Build liedboek` handmatig
-2. controleer dat `Gesynchroniseerd: N lied(en).` in de log staat
-3. test `/liedjes/`
-4. test een lied met akkoorden op desktop en mobiel
-5. test een niet-bestaande URL voor de nieuwe 404
+De merge naar `main` hoort nu vanzelf **Build liedboek** te starten.
 
-De GitHub-koppeling van ChatGPT kan momenteel geen branch aanmaken of bestanden schrijven (403), dus deze update kon niet rechtstreeks als PR worden geplaatst.
+Controleer daarna:
+
+- `/dwarsverbanden/`
+- een lied zonder schrijfnotitie
+- een lied mét schrijfnotitie
+- de bestaande pagina `/liedjes/`
+- een lied met akkoorden
+
+## Voorbeeld schrijfnotitie
+
+Direct na `[[/liedboek]]` en vóór de tekst:
+
+```text
+[[schrijfnotitie]]
+Vlak voor een optreden zei iemand: "Come on, let's kick some country ass."
+In mijn hoofd werd dat meteen een lied.
+[[/schrijfnotitie]]
+```
+
+Het blok is optioneel.
+
+## Opmerking
+
+De ChatGPT-GitHub-koppeling kan de repository wel lezen, maar weigert op dit moment het aanmaken van branches met HTTP 403. Daarom is deze update als compleet pakket gemaakt in plaats van rechtstreeks als PR.
