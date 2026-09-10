@@ -4,7 +4,7 @@ title: Uitgangspunten
 permalink: /uitgangspunten/
 ---
 
-# Uitgangspunten
+## Uitgangspunten
 
 *Geen regels. Gereedschap.*
 
@@ -22,7 +22,7 @@ De vraag is:
 
 > Helpt dit me zien wat het lied nodig heeft?
 
-## Op deze pagina
+### Op deze pagina
 
 1. [Kijk nog eens](#1-kijk-nog-eens)
 2. [Schrijf het spoor](#2-schrijf-het-spoor)
@@ -35,9 +35,9 @@ De vraag is:
 
 ---
 
-# 1. Kijk nog eens
+## 1. Kijk nog eens
 
-## De eerste kijkt in de spiegel. De tweede kijkt de kamer in.
+### De eerste kijkt in de spiegel. De tweede kijkt de kamer in.
 
 De eerste gedachte bij een emotie gaat vaak over degene die haar voelt.
 
@@ -51,19 +51,19 @@ Wat staat er nog? Wat is verdwenen? Wat doet iemand terwijl hij probeert niet te
 
 Vaak begint daar het lied.
 
-## Kijk nog eens.
+### Kijk nog eens.
 
 De eerste observatie is niet altijd de beste.
 
 Als je denkt dat je weet waar een beeld over gaat, kijk nog een keer. Niet om er iets slimmers van te maken, maar om te ontdekken wat je de eerste keer oversloeg.
 
-## Blijf langer kijken dan comfortabel is.
+### Blijf langer kijken dan comfortabel is.
 
 Een beeld wordt interessanter wanneer je niet onmiddellijk beslist wat het betekent.
 
 Laat het even bestaan voordat je het gebruikt.
 
-## Voorwerpen zijn getuigen.
+### Voorwerpen zijn getuigen.
 
 Een koffiekopje bij de gootsteen hoeft niets uit te leggen.
 
@@ -75,7 +75,7 @@ Het was erbij.
 
 Dat is soms genoeg.
 
-## Kijk tot een voorwerp ophoudt alleen een voorwerp te zijn.
+### Kijk tot een voorwerp ophoudt alleen een voorwerp te zijn.
 
 Het voorwerp zelf hoeft niet symbolisch te worden gemaakt.
 
@@ -83,7 +83,7 @@ De context doet dat.
 
 Een deur kan gewoon een deur zijn, totdat iemand zijn hele leven heeft geleerd waar de uitgang is.
 
-## Context vertelt het verhaal.
+### Context vertelt het verhaal.
 
 Een voorwerp, handeling of losse regel hoeft niet alle betekenis zelf te dragen.
 
@@ -91,9 +91,9 @@ Wat ervoor en erna gebeurt kan hetzelfde beeld volledig veranderen.
 
 ---
 
-# 2. Schrijf het spoor
+## 2. Schrijf het spoor
 
-## Gedrag is sterker dan emotie.
+### Gedrag is sterker dan emotie.
 
 "Ik ben bang dat je weggaat" vertelt me wat iemand voelt.
 
@@ -103,7 +103,7 @@ Niet altijd beter.
 
 Wel anders.
 
-## Schrijf niet het gevoel. Schrijf het spoor.
+### Schrijf niet het gevoel. Schrijf het spoor.
 
 Als iets gebeurd is, heeft het vaak iets achtergelaten.
 
@@ -114,7 +114,7 @@ Een afdruk waar een ring heeft gezeten.
 
 Zoek eerst naar het spoor.
 
-## Gevoel is de conclusie. Schrijf de aanleiding.
+### Gevoel is de conclusie. Schrijf de aanleiding.
 
 Dit betekent niet dat gevoelens nooit benoemd mogen worden.
 
@@ -128,7 +128,7 @@ Laat me eerst zien wat jij ziet.
 
 Vertel me daarna wat dat met je doet.
 
-## Schrijf wat achterblijft.
+### Schrijf wat achterblijft.
 
 Vertrek is interessant.
 
@@ -142,9 +142,9 @@ Wat draag je mee nadat je dacht dat je iets had achtergelaten?
 
 ---
 
-# 3. Vertrouw de luisteraar
+## 3. Vertrouw de luisteraar
 
-## Laat de luisteraar meeschrijven.
+### Laat de luisteraar meeschrijven.
 
 Een lied hoeft niet volledig te zijn voordat de luisteraar het kan begrijpen.
 
@@ -152,7 +152,7 @@ De ruimte tussen twee regels is ook onderdeel van het lied.
 
 Laat daar iets gebeuren.
 
-## Vertrouw de luisteraar.
+### Vertrouw de luisteraar.
 
 Als het spoor zichtbaar is, hoef je niet altijd de voetstappen erbij te tekenen.
 
@@ -160,25 +160,25 @@ De luisteraar heeft zelf een leven meegenomen naar het lied.
 
 Gebruik dat.
 
-## Vertrouw je beste regel.
+### Vertrouw je beste regel.
 
 Als één regel het werk doet, laat hem dat dan doen.
 
 Leg hem niet in de volgende drie regels nog eens uit.
 
-## Leg niet uit wat al zichtbaar is.
+### Leg niet uit wat al zichtbaar is.
 
 Uitleg kan een sterk beeld kleiner maken.
 
 Niet omdat uitleg verboden is, maar omdat het soms het werk overneemt dat de luisteraar al aan het doen was.
 
-## Schrijf nieuwsgierigheid, niet betekenis.
+### Schrijf nieuwsgierigheid, niet betekenis.
 
 Een luisteraar hoeft niet na vier regels precies te weten waar een lied over gaat.
 
 Hij moet reden hebben om de vijfde te willen horen.
 
-## Los niet te snel op.
+### Los niet te snel op.
 
 Onzekerheid is niet automatisch een probleem dat gerepareerd moet worden.
 
@@ -186,7 +186,7 @@ Een lied mag een tijdje niet weten wat het betekent.
 
 Dat geldt ook tijdens het schrijven.
 
-## De bron is voor de schrijver. De ruimte is voor de luisteraar.
+### De bron is voor de schrijver. De ruimte is voor de luisteraar.
 
 Ik mag precies weten wie iemand was, in welke straat iets gebeurde en waarom een bepaald voorwerp belangrijk is.
 
@@ -196,7 +196,7 @@ De bron geeft mij precisie.
 
 De ruimte geeft de luisteraar toegang.
 
-## Geef de luisteraar jouw sleutel, niet jouw adres.
+### Geef de luisteraar jouw sleutel, niet jouw adres.
 
 Geef hem genoeg om binnen te komen zonder hem precies te vertellen in welk huis hij moet staan.
 
@@ -206,9 +206,9 @@ Soms geef je juist het adres en niet de sleutel: een exacte plek, datum of gebeu
 
 ---
 
-# 4. Laat iedere regel zijn eigen werk doen
+## 4. Laat iedere regel zijn eigen werk doen
 
-## Laat ieder beeld zijn eigen werk doen.
+### Laat ieder beeld zijn eigen werk doen.
 
 Twee beelden die hetzelfde vertellen maken elkaar niet automatisch sterker.
 
@@ -216,7 +216,7 @@ Als het eerste beeld verdriet laat zien, hoeft het tweede niet nogmaals verdriet
 
 Misschien kan dat tweede beeld iets anders doen.
 
-## Niet iedere regel hoeft even bijzonder te zijn.
+### Niet iedere regel hoeft even bijzonder te zijn.
 
 Een lied waarin iedere regel de beste regel probeert te zijn, wordt vermoeiend.
 
@@ -228,7 +228,7 @@ En sommige regels brengen je gewoon naar de volgende.
 
 Dat is werk genoeg.
 
-## Een eenvoudige regel mag de grote regel laten landen.
+### Een eenvoudige regel mag de grote regel laten landen.
 
 Bijvoorbeeld:
 
@@ -239,7 +239,7 @@ De tweede regel hoeft niet te concurreren met de eerste.
 
 Hij legt er vloer onder.
 
-## Een mooie regel is niet altijd een nodige regel.
+### Een mooie regel is niet altijd een nodige regel.
 
 Dit is een vervelende.
 
@@ -249,7 +249,7 @@ Een regel kan op zichzelf prachtig zijn en het lied toch in de weg zitten.
 
 Dan wint het lied.
 
-## Als een regel zichzelf bewondert, kijk er nog eens naar.
+### Als een regel zichzelf bewondert, kijk er nog eens naar.
 
 Een mooie regel is niet verdacht omdat hij mooi is.
 
@@ -257,7 +257,7 @@ Maar er bestaat een verschil tussen een regel die mooi **is** en een regel die l
 
 Dat laatste is het moment om het archeologenkwastje te pakken.
 
-## Zoek naar gevonden regels.
+### Zoek naar gevonden regels.
 
 Sommige regels klinken geschreven.
 
@@ -269,9 +269,9 @@ En meestal eenvoudiger dan je dacht.
 
 ---
 
-# 5. Laat het lied reizen
+## 5. Laat het lied reizen
 
-## Een lied moet ergens aankomen.
+### Een lied moet ergens aankomen.
 
 Niet noodzakelijk bij een oplossing.
 
@@ -279,13 +279,13 @@ Wel ergens anders dan waar het begon.
 
 Als er na drie minuten niets veranderd is behalve het rijmschema, was de reis misschien te kort.
 
-## Een tweede couplet is niet het eerste couplet met andere meubels.
+### Een tweede couplet is niet het eerste couplet met andere meubels.
 
 Een tweede couplet moet nieuwe informatie geven, de situatie verdiepen, een patroon zichtbaar maken of de betekenis van het eerste couplet verschuiven.
 
 Anders hebben we alleen de bank vervangen.
 
-## Een goed lied kan de vraag veranderen.
+### Een goed lied kan de vraag veranderen.
 
 Het antwoord hoeft niet aan het einde te komen.
 
@@ -293,7 +293,7 @@ Soms ontdek je dat de vraag waarmee het lied begon niet de echte vraag was.
 
 Dat is ook aankomen.
 
-## Laat het lied de betekenis van eerdere woorden veranderen.
+### Laat het lied de betekenis van eerdere woorden veranderen.
 
 Een woord mag onderweg iets anders worden.
 
@@ -311,7 +311,7 @@ Het woord veranderde niet.
 
 Het lied wel.
 
-## Soms is de eerste observatie niet het onderwerp van het lied.
+### Soms is de eerste observatie niet het onderwerp van het lied.
 
 Het is de deur ernaartoe.
 
@@ -321,7 +321,7 @@ Pas tijdens het schrijven ontdek je misschien waar het werkelijk over gaat.
 
 Laat dat gebeuren.
 
-## De weg naar het refrein bepaalt hoeveel het refrein mag zeggen.
+### De weg naar het refrein bepaalt hoeveel het refrein mag zeggen.
 
 Een direct refrein is niet automatisch simpel.
 
@@ -331,15 +331,15 @@ Het couplet kan fluisteren zodat het refrein kan schreeuwen.
 
 ---
 
-# 6. Schrijf vanuit een stem
+## 6. Schrijf vanuit een stem
 
-## Schrijf vanuit jezelf, niet noodzakelijk over jezelf.
+### Schrijf vanuit jezelf, niet noodzakelijk over jezelf.
 
 Een lied hoeft niet autobiografisch te zijn om persoonlijk te zijn.
 
 Wat ik herken, vrees, mis, grappig vind of niet begrijp kan terechtkomen in iemand die nooit heeft bestaan.
 
-## De verteller bepaalt de taal. Niet de schrijver.
+### De verteller bepaalt de taal. Niet de schrijver.
 
 Niet iedere verteller heeft mijn woordenschat.
 
@@ -349,7 +349,7 @@ Een vuurtorenwachter, iemand aan een bar en iemand die met een Telecaster voor e
 
 Als ik de schrijver te duidelijk hoor, moet hij soms uit beeld.
 
-## De feiten mogen verzonnen zijn. De waarheid liever niet.
+### De feiten mogen verzonnen zijn. De waarheid liever niet.
 
 Fictie kan volkomen verzonnen zijn en toch iets waars vertellen.
 
@@ -357,7 +357,7 @@ Andersom kan een autobiografisch correct lied volkomen onecht klinken.
 
 Feitelijke nauwkeurigheid en emotionele waarheid zijn niet hetzelfde.
 
-## Directheid is geen gebrek aan subtiliteit.
+### Directheid is geen gebrek aan subtiliteit.
 
 Niet ieder lied hoeft Shane McGowan te zijn.
 
@@ -369,9 +369,9 @@ Een anthem mag weten dat het een anthem is.
 
 ---
 
-# 7. Bewaar, vind en schrap
+## 7. Bewaar, vind en schrap
 
-## Bewaar de *wat*.
+### Bewaar de *wat*.
 
 Soms verschijnt er één regel of beeld zonder lied.
 
@@ -381,13 +381,13 @@ Je hoeft nog niet te weten wie het zegt, wanneer het gebeurt, waar het is of waa
 
 De *wat* mag eerder komen dan de rest.
 
-## Niet iedere goede regel is al een lied.
+### Niet iedere goede regel is al een lied.
 
 Een goede regel hoeft niet onmiddellijk drie coupletten, een refrein en een bridge te krijgen.
 
 Sommige regels moeten wachten.
 
-## Forceer een vondst niet tot een lied.
+### Forceer een vondst niet tot een lied.
 
 Als je alleen verder schrijft omdat de eerste regel zo goed was dat hij volgens jou een lied *verdient*, ben je misschien materiaal aan het toevoegen dat er nog niet is.
 
@@ -397,7 +397,7 @@ Hij loopt niet weg.
 
 Waarschijnlijk.
 
-## Herschrijven is ook erosie.
+### Herschrijven is ook erosie.
 
 Bij herschrijven hoeft er niet altijd iets bij.
 
@@ -405,11 +405,11 @@ Soms moet alles wat niet sterk genoeg vastzit verdwijnen.
 
 Wat daarna nog overeind staat, zou weleens het lied kunnen zijn.
 
-## Schrap wat uitlegt wat al overeind staat.
+### Schrap wat uitlegt wat al overeind staat.
 
 Als het lied het al heeft laten zien, hoeft de schrijver niet binnen te komen om te vertellen wat we zojuist zagen.
 
-## Een prachtige regel uit het verkeerde lied hoort nog steeds in het verkeerde lied.
+### Een prachtige regel uit het verkeerde lied hoort nog steeds in het verkeerde lied.
 
 Pijnlijk.
 
@@ -417,13 +417,13 @@ Maar waar.
 
 Bewaar hem ergens anders.
 
-## Zoek niet altijd naar een betere regel. Zoek naar wat het lied zonder kan.
+### Zoek niet altijd naar een betere regel. Zoek naar wat het lied zonder kan.
 
 "Kan ik dit mooier schrijven?" is niet altijd de beste redactievraag.
 
 "Heb ik dit nodig?" is vaak interessanter.
 
-## Sommige regels schrijf je. Andere leg je bloot.
+### Sommige regels schrijf je. Andere leg je bloot.
 
 Daarom voelt redigeren soms minder als bouwen en meer als archeologie.
 
@@ -433,21 +433,21 @@ Voorzichtig het zand verwijderen totdat zichtbaar wordt wat er al lag.
 
 ---
 
-# 8. Gereedschap, geen wet
+## 8. Gereedschap, geen wet
 
-## Dit zijn gereedschappen, geen wetten.
+### Dit zijn gereedschappen, geen wetten.
 
 Dit uitgangspunt staat expres als laatste.
 
 Het kan alle voorgaande uitgangspunten buiten werking stellen.
 
-## Niet ieder lied vraagt om hetzelfde gereedschap.
+### Niet ieder lied vraagt om hetzelfde gereedschap.
 
 Een timmerman bezit meer dan één stuk gereedschap.
 
 Dat betekent niet dat hij ze bij iedere klus allemaal moet gebruiken.
 
-## Een couplet mag fluisteren zodat een refrein kan schreeuwen.
+### Een couplet mag fluisteren zodat een refrein kan schreeuwen.
 
 "Show, don't tell" is geen religie.
 
@@ -457,7 +457,7 @@ En dan vertel je het.
 
 Juist daardoor kan de directe regel hard aankomen.
 
-## Een anthem mag de deur intrappen.
+### Een anthem mag de deur intrappen.
 
 Niet ieder lied hoeft voorzichtig ontdekt te worden.
 
@@ -467,7 +467,7 @@ Dat is geen artistieke nederlaag.
 
 Dat is een ander lied.
 
-## Ambiguïteit is geen doel op zichzelf.
+### Ambiguïteit is geen doel op zichzelf.
 
 Onduidelijkheid en diepgang zijn niet hetzelfde.
 
@@ -475,7 +475,7 @@ Laat iets open omdat er werkelijk ruimte zit.
 
 Niet omdat vaagheid interessanter klinkt.
 
-## Observatie is geen verplicht perspectief.
+### Observatie is geen verplicht perspectief.
 
 Soms kijkt de verteller de kamer in.
 
@@ -485,7 +485,7 @@ Sommige liedjes moeten *ik* zeggen.
 
 Laat ze.
 
-## Verander een regel niet alleen omdat iemand hem niet meteen begrijpt.
+### Verander een regel niet alleen omdat iemand hem niet meteen begrijpt.
 
 Verander hem pas als jij hem niet meer gelooft.
 
@@ -495,7 +495,7 @@ Een regel mag zelfs een tijdje vreemd blijven.
 
 De vraag is of hij waar is binnen het lied.
 
-## De uiteindelijke vraag
+### De uiteindelijke vraag
 
 Niet:
 
@@ -515,7 +515,7 @@ Maar:
 
 ---
 
-## Uiteindelijk
+### Uiteindelijk
 
 Misschien komt de hele werkbank hierop neer:
 
