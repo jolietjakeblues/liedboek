@@ -4,6 +4,6 @@ title: Onderwerpen
 permalink: /onderwerpen/
 ---
 
-# Onderwerpen
+## Onderwerpen
 
 Onderwerpen worden tijdens de build gegenereerd.

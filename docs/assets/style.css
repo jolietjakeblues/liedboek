@@ -90,7 +90,6 @@ h2 {
   tab-size: 4;
 }
 
-/* Akkoordposities blijven intact. Te brede regels scrollen horizontaal. */
 .song .lyrics.has-chords {
   white-space: pre;
   overflow-wrap: normal;
@@ -112,6 +111,24 @@ h2 {
 
 .back {
   margin-top: 3rem;
+}
+
+/* Schrijfnotities */
+.writing-note {
+  max-width: 720px;
+  margin: 3rem 0 2.5rem;
+  padding: 1.15rem 1.25rem;
+  border-left: 3px solid #bbb;
+  background: #fafafa;
+}
+
+.writing-note h2 {
+  margin: 0 0 .65rem;
+  font-size: 1.15rem;
+}
+
+.writing-note p {
+  margin: .5rem 0;
 }
 
 .song-tools {
@@ -214,6 +231,50 @@ h2 {
   font-style: italic;
 }
 
+/* Dwarsverbanden */
+.connections-intro {
+  max-width: 660px;
+  color: #555;
+  margin-bottom: 2.5rem;
+}
+
+.connection {
+  padding: 0 0 2.2rem;
+  margin: 0 0 2.2rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.connection:last-child {
+  border-bottom: 0;
+}
+
+.connection h2 {
+  margin: 0 0 .45rem;
+  font-size: 1.55rem;
+}
+
+.connection-description {
+  margin: 0 0 1rem;
+  color: #555;
+}
+
+.connection-songs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.connection-songs li {
+  margin: .75rem 0;
+}
+
+.connection-match {
+  display: block;
+  color: #777;
+  font-size: .78rem;
+  margin-top: .05rem;
+}
+
 /* 404 */
 .not-found {
   max-width: 620px;
@@ -274,6 +335,11 @@ footer p {
 
   .song-summary {
     font-size: .76rem;
+  }
+
+  .writing-note {
+    box-sizing: border-box;
+    width: 100%;
   }
 }
 

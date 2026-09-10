@@ -23,6 +23,11 @@ META_RE = re.compile(
     re.I | re.S,
 )
 
+NOTE_RE = re.compile(
+    r"^\s*\[\[schrijfnotitie\]\]\s*\n(.*?)\n\s*\[\[/schrijfnotitie\]\]\s*\n?",
+    re.I | re.S,
+)
+
 STATUS_LABELS = {
     "concept": "Concept",
     "werkversie": "Werkversie",
@@ -35,6 +40,57 @@ LANGUAGE_LABELS = {
     "de": "Duits",
     "fr": "Frans",
 }
+
+CONNECTIONS = [
+    {
+        "title": "Onderweg en thuiskomen",
+        "description": (
+            "Liedjes waarin afstand, vertrekken en thuiskomen meer betekenen "
+            "dan alleen een plaats op de kaart."
+        ),
+        "tags": {"onderweg", "thuiskomen", "afscheid"},
+    },
+    {
+        "title": "Wat achterblijft",
+        "description": (
+            "Verlies wordt vaak zichtbaar in wat er na een vertrek, dood of "
+            "afscheid nog in de kamer, het hoofd of het dagelijks leven staat."
+        ),
+        "tags": {"verlies", "afscheid", "herinneringen", "dood"},
+    },
+    {
+        "title": "Wie je bent en wat je laat zien",
+        "description": (
+            "Over identiteit, zelfbeeld, maskers en het verschil tussen hoe "
+            "iemand gezien wordt en wat eronder zit."
+        ),
+        "tags": {"identiteit", "zelfbeeld", "authenticiteit"},
+    },
+    {
+        "title": "Drank en gevolgen",
+        "description": (
+            "Drank is hier niet alleen decor. Soms is het brandstof, uitvlucht, "
+            "herinnering, grap of de rekening die later komt."
+        ),
+        "tags": {"alcohol", "zelfdestructie", "schuld"},
+    },
+    {
+        "title": "Werk, ouder worden en doorgaan",
+        "description": (
+            "Liedjes over werken, tijd die voorbijgaat en doorgaan wanneer het "
+            "leven minder romantisch blijkt dan vroeger."
+        ),
+        "tags": {"arbeid", "ouder worden"},
+    },
+    {
+        "title": "Muziek als leven",
+        "description": (
+            "Podium, verhalen en muziek zijn niet alleen achtergrond, maar een "
+            "manier om te bestaan, te ontsnappen of terug te kijken."
+        ),
+        "tags": {"muziek", "podium", "verhalen"},
+    },
+]
 
 
 def slugify(value):
@@ -99,6 +155,13 @@ def parse_metadata(text):
     return meta, text[match.end():].strip()
 
 
+def parse_writing_note(text):
+    match = NOTE_RE.match(text)
+    if not match:
+        return "", text.strip()
+    return match.group(1).strip(), text[match.end():].strip()
+
+
 def service():
     credentials, _ = google.auth.default(
         scopes=["https://www.googleapis.com/auth/drive.readonly"]
@@ -154,6 +217,23 @@ def topic_link(tag):
     )
 
 
+def writing_note_html(note):
+    if not note:
+        return ""
+
+    paragraphs = []
+    for block in re.split(r"\n\s*\n", note.strip()):
+        escaped = html.escape(block.strip()).replace("\n", "<br>\n")
+        paragraphs.append(f"<p>{escaped}</p>")
+
+    return (
+        '<aside class="writing-note">\n'
+        "<h2>Schrijfnotitie</h2>\n"
+        + "\n".join(paragraphs)
+        + "\n</aside>"
+    )
+
+
 def song_page(item):
     tags_html = ""
     if item["tags"]:
@@ -180,6 +260,7 @@ def song_page(item):
         if item["buma"] else ""
     )
 
+    note_html = writing_note_html(item["schrijfnotitie"])
     lyrics_class = "lyrics has-chords" if item["akkoorden"] else "lyrics"
 
     return (
@@ -189,6 +270,7 @@ def song_page(item):
         f'permalink: /liedjes/{item["slug"]}/\n'
         "---\n\n"
         f'<pre class="{lyrics_class}">{html.escape(item["text"])}</pre>\n\n'
+        f"{note_html}\n"
         f"{tags_html}\n"
         f"{year_html}\n"
         f"{language_html}\n"
@@ -359,6 +441,69 @@ def write_topics(items):
     )
 
 
+def write_connections(items):
+    lines = [
+        "---",
+        "layout: default",
+        'title: "Dwarsverbanden"',
+        "permalink: /dwarsverbanden/",
+        "---",
+        "",
+        "# Dwarsverbanden",
+        "",
+        '<p class="connections-intro">'
+        "Onderwerpen benoemen waar een lied over gaat. Dwarsverbanden laten zien "
+        "welke grotere lijnen door verschillende liedjes heen lopen."
+        "</p>",
+        "",
+    ]
+
+    written = 0
+
+    for connection in CONNECTIONS:
+        matching = []
+        wanted = {tag.casefold() for tag in connection["tags"]}
+
+        for item in items:
+            item_tags = {tag.casefold() for tag in item["tags"]}
+            matched = sorted(item_tags & wanted)
+            if matched:
+                matching.append((item, matched))
+
+        if len(matching) < 2:
+            continue
+
+        written += 1
+        lines += [
+            '<section class="connection">',
+            f'<h2>{html.escape(connection["title"])}</h2>',
+            f'<p class="connection-description">{html.escape(connection["description"])}</p>',
+            '<ul class="connection-songs">',
+        ]
+
+        for item, matched in sorted(matching, key=lambda x: x[0]["title"].casefold()):
+            title = html.escape(item["title"])
+            matched_text = " · ".join(html.escape(tag) for tag in matched)
+            lines += [
+                "<li>",
+                f'<a href="{{{{ site.baseurl }}}}/liedjes/{item["slug"]}/">{title}</a>',
+                f'<span class="connection-match">{matched_text}</span>',
+                "</li>",
+            ]
+
+        lines += ["</ul>", "</section>", ""]
+
+    if not written:
+        lines.append(
+            "Er zijn nog te weinig getagde liedjes om betekenisvolle dwarsverbanden te tonen."
+        )
+
+    (DOCS / "dwarsverbanden.md").write_text(
+        "\n".join(lines) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main():
     folder_id = os.environ["GOOGLE_DRIVE_FOLDER_ID"]
     SONGS.mkdir(parents=True, exist_ok=True)
@@ -381,8 +526,15 @@ def main():
             slug = f"{slug}-{doc['id'][:6].lower()}"
         used_slugs.add(slug)
 
-        meta, body = parse_metadata(export_text(api, doc["id"]))
-        item = {"title": title, "slug": slug, "text": body, **meta}
+        meta, remainder = parse_metadata(export_text(api, doc["id"]))
+        schrijfnotitie, body = parse_writing_note(remainder)
+        item = {
+            "title": title,
+            "slug": slug,
+            "text": body,
+            "schrijfnotitie": schrijfnotitie,
+            **meta,
+        }
         items.append(item)
 
         (SONGS / f"{slug}.md").write_text(song_page(item), encoding="utf-8")
@@ -390,6 +542,7 @@ def main():
     write_index(items)
     write_chords(items)
     write_topics(items)
+    write_connections(items)
 
     public_search = [
         {
