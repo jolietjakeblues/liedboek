@@ -17,6 +17,7 @@ SONGS = DOCS / "liedjes"
 TOPICS = DOCS / "onderwerpen"
 DATA = DOCS / "_data"
 GOOGLE_DOC_MIME = "application/vnd.google-apps.document"
+DRIVE_RETRIES = 5
 
 META_RE = re.compile(
     r"^\s*\[\[liedboek\]\]\s*\n(.*?)\n\s*\[\[/liedboek\]\]\s*\n?",
@@ -184,7 +185,7 @@ def list_docs(api, folder_id):
             fields="nextPageToken, files(id,name,modifiedTime)",
             orderBy="name_natural",
             pageToken=token,
-        ).execute()
+        ).execute(num_retries=DRIVE_RETRIES)
         out += response.get("files", [])
         token = response.get("nextPageToken")
         if not token:
@@ -197,7 +198,7 @@ def export_text(api, file_id):
     downloader = MediaIoBaseDownload(buffer, request)
     done = False
     while not done:
-        _, done = downloader.next_chunk()
+        _, done = downloader.next_chunk(num_retries=DRIVE_RETRIES)
     return (
         buffer.getvalue()
         .decode("utf-8-sig")
@@ -566,3 +567,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
