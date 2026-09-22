@@ -289,7 +289,7 @@ Maar soms staat het er alleen omdat het genre het aanreikte.
 
 Dan is het alleen een cliché.
 
-**Originaliteit zit niet in het vermijden van de taal van een genre, maar in wat je met die taal laat gebeuren.**
+Originaliteit zit niet in het vermijden van de taal van een genre, maar in wat je met die taal laat gebeuren.
 
 ---
 
