@@ -267,6 +267,30 @@ Die tweede soort is zeldzaam.
 
 En meestal eenvoudiger dan je dacht.
 
+### Een cliché mag werken.
+
+Een genre heeft zijn eigen taal.
+
+Country heeft wegen, bars, trucks en whiskey. Blues heeft treinen, drank en gebroken harten. Andere genres hebben hun eigen vertrouwde beelden.
+
+Dat maakt ze niet automatisch slechte regels.
+
+De vraag is wat het cliché doet.
+
+Soms draagt het het verhaal.
+
+Soms is het gewoon behang; en ook een lied heeft soms een muur nodig.
+
+Soms verandert een vertrouwd beeld later van betekenis.
+
+En soms ligt een woord gewoon verdomd lekker in de mond.
+
+Maar soms staat het er alleen omdat het genre het aanreikte.
+
+Dan is het alleen een cliché.
+
+**Originaliteit zit niet in het vermijden van de taal van een genre, maar in wat je met die taal laat gebeuren.**
+
 ---
 
 ## 5. Laat het lied reizen
