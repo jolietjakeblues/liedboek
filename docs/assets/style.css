@@ -69,7 +69,6 @@ h2 {
   margin: 2rem 0 3rem;
 }
 
-/* Liedpagina's mogen iets breder zijn, vooral voor akkoorden. */
 .song {
   width: min(900px, calc(100vw - 2.5rem));
   margin-left: 50%;
@@ -113,7 +112,6 @@ h2 {
   margin-top: 3rem;
 }
 
-/* Schrijfnotities */
 .writing-note {
   max-width: 720px;
   margin: 3rem 0 2.5rem;
@@ -163,11 +161,6 @@ h2 {
   cursor: pointer;
 }
 
-.filter:hover,
-.filter:focus-visible {
-  border-color: #555;
-}
-
 .filter.is-active {
   background: #202124;
   border-color: #202124;
@@ -182,22 +175,6 @@ h2 {
   padding-bottom: .7rem;
   border-bottom: 1px solid #e3e3e3;
   font-size: .9rem;
-}
-
-.alphabet a {
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.song-group {
-  scroll-margin-top: 1rem;
-}
-
-.letter-heading {
-  margin: 2.2rem 0 .55rem;
-  padding-bottom: .25rem;
-  border-bottom: 1px solid #ddd;
-  font-size: 1.55rem;
 }
 
 .song-list {
@@ -219,23 +196,11 @@ h2 {
   margin-top: .12rem;
   color: #666;
   font-size: .78rem;
-  line-height: 1.45;
 }
 
-.song-summary a {
-  color: inherit;
-}
-
-.song-empty {
-  color: #666;
-  font-style: italic;
-}
-
-/* Dwarsverbanden */
-.connections-intro {
-  max-width: 660px;
+.connections-intro,
+.connection-description {
   color: #555;
-  margin-bottom: 2.5rem;
 }
 
 .connection {
@@ -244,64 +209,15 @@ h2 {
   border-bottom: 1px solid #ddd;
 }
 
-.connection:last-child {
-  border-bottom: 0;
-}
-
-.connection h2 {
-  margin: 0 0 .45rem;
-  font-size: 1.55rem;
-}
-
-.connection-description {
-  margin: 0 0 1rem;
-  color: #555;
-}
-
 .connection-songs {
   list-style: none;
   padding: 0;
-  margin: 0;
-}
-
-.connection-songs li {
-  margin: .75rem 0;
 }
 
 .connection-match {
   display: block;
   color: #777;
   font-size: .78rem;
-  margin-top: .05rem;
-}
-
-/* 404 */
-.not-found {
-  max-width: 620px;
-  padding-top: 2rem;
-}
-
-.error-code {
-  margin: 0 0 .45rem;
-  color: #888;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: .85rem;
-  letter-spacing: .15em;
-}
-
-.not-found h1 {
-  margin-bottom: 1rem;
-}
-
-.not-found-actions {
-  display: flex;
-  gap: .8rem 1.2rem;
-  flex-wrap: wrap;
-  margin-top: 2rem;
-}
-
-.not-found-actions a:first-child {
-  font-weight: 700;
 }
 
 footer {
@@ -333,32 +249,74 @@ footer p {
     font-size: .80rem;
   }
 
-  .song-summary {
-    font-size: .76rem;
-  }
-
   .writing-note {
     box-sizing: border-box;
     width: 100%;
   }
 }
 
-@media print {
-  .site-header,
-  footer,
-  .back {
-    display: none;
-  }
+/* Over liedjes */
+.article-list {
+  margin-top: 2.2rem;
+}
 
-  main,
-  .song {
-    width: 100%;
-    margin: 0;
-    transform: none;
-  }
+.article-card {
+  padding: 0 0 1.6rem;
+  margin: 0 0 1.6rem;
+  border-bottom: 1px solid #ddd;
+}
 
-  .song .lyrics.has-chords {
-    font-size: 9pt;
-    overflow: visible;
-  }
+.article-card h2 {
+  margin: 0 0 .35rem;
+  font-size: 1.35rem;
+}
+
+.article-card h2 a {
+  text-decoration: none;
+}
+
+.article-card p {
+  margin: 0;
+  color: #666;
+  font-style: italic;
+}
+
+.article {
+  max-width: 720px;
+}
+
+.article-header {
+  margin-bottom: 2.5rem;
+}
+
+.article-header h1 {
+  margin-bottom: .55rem;
+}
+
+.article-artist {
+  margin: 0 0 .9rem;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.article-intro {
+  margin: 0;
+  color: #666;
+  font-size: 1.08rem;
+  font-style: italic;
+}
+
+.article-body p {
+  margin: 0 0 1.25rem;
+}
+
+.article-body blockquote {
+  margin: 1.6rem 0;
+  padding-left: 1.1rem;
+  border-left: 3px solid #bbb;
+  color: #444;
+}
+
+.article-body h2 {
+  margin-top: 2.8rem;
 }

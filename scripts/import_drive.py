@@ -15,17 +15,23 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 SONGS = DOCS / "liedjes"
 TOPICS = DOCS / "onderwerpen"
+ARTICLES = DOCS / "over-liedjes"
 DATA = DOCS / "_data"
+
 GOOGLE_DOC_MIME = "application/vnd.google-apps.document"
+GOOGLE_FOLDER_MIME = "application/vnd.google-apps.folder"
 DRIVE_RETRIES = 5
 
 META_RE = re.compile(
     r"^\s*\[\[liedboek\]\]\s*\n(.*?)\n\s*\[\[/liedboek\]\]\s*\n?",
     re.I | re.S,
 )
-
 NOTE_RE = re.compile(
     r"^\s*\[\[schrijfnotitie\]\]\s*\n(.*?)\n\s*\[\[/schrijfnotitie\]\]\s*\n?",
+    re.I | re.S,
+)
+ARTICLE_META_RE = re.compile(
+    r"^\s*\[\[overliedjes\]\]\s*\n(.*?)\n\s*\[\[/overliedjes\]\]\s*\n?",
     re.I | re.S,
 )
 
@@ -34,7 +40,6 @@ STATUS_LABELS = {
     "werkversie": "Werkversie",
     "definitief": "Definitief",
 }
-
 LANGUAGE_LABELS = {
     "nl": "Nederlands",
     "en": "Engels",
@@ -45,50 +50,32 @@ LANGUAGE_LABELS = {
 CONNECTIONS = [
     {
         "title": "Onderweg en thuiskomen",
-        "description": (
-            "Liedjes waarin afstand, vertrekken en thuiskomen meer betekenen "
-            "dan alleen een plaats op de kaart."
-        ),
+        "description": "Liedjes waarin afstand, vertrekken en thuiskomen meer betekenen dan alleen een plaats op de kaart.",
         "tags": {"onderweg", "thuiskomen", "afscheid"},
     },
     {
         "title": "Wat achterblijft",
-        "description": (
-            "Verlies wordt vaak zichtbaar in wat er na een vertrek, dood of "
-            "afscheid nog in de kamer, het hoofd of het dagelijks leven staat."
-        ),
+        "description": "Verlies wordt vaak zichtbaar in wat er na een vertrek, dood of afscheid nog in de kamer, het hoofd of het dagelijks leven staat.",
         "tags": {"verlies", "afscheid", "herinneringen", "dood"},
     },
     {
         "title": "Wie je bent en wat je laat zien",
-        "description": (
-            "Over identiteit, zelfbeeld, maskers en het verschil tussen hoe "
-            "iemand gezien wordt en wat eronder zit."
-        ),
+        "description": "Over identiteit, zelfbeeld, maskers en het verschil tussen hoe iemand gezien wordt en wat eronder zit.",
         "tags": {"identiteit", "zelfbeeld", "authenticiteit"},
     },
     {
         "title": "Drank en gevolgen",
-        "description": (
-            "Drank is hier niet alleen decor. Soms is het brandstof, uitvlucht, "
-            "herinnering, grap of de rekening die later komt."
-        ),
+        "description": "Drank is hier niet alleen decor. Soms is het brandstof, uitvlucht, herinnering, grap of de rekening die later komt.",
         "tags": {"alcohol", "zelfdestructie", "schuld"},
     },
     {
         "title": "Werk, ouder worden en doorgaan",
-        "description": (
-            "Liedjes over werken, tijd die voorbijgaat en doorgaan wanneer het "
-            "leven minder romantisch blijkt dan vroeger."
-        ),
+        "description": "Liedjes over werken, tijd die voorbijgaat en doorgaan wanneer het leven minder romantisch blijkt dan vroeger.",
         "tags": {"arbeid", "ouder worden"},
     },
     {
         "title": "Muziek als leven",
-        "description": (
-            "Podium, verhalen en muziek zijn niet alleen achtergrond, maar een "
-            "manier om te bestaan, te ontsnappen of terug te kijken."
-        ),
+        "description": "Podium, verhalen en muziek zijn niet alleen achtergrond, maar een manier om te bestaan, te ontsnappen of terug te kijken.",
         "tags": {"muziek", "podium", "verhalen"},
     },
 ]
@@ -99,7 +86,7 @@ def slugify(value):
     value = value.encode("ascii", "ignore").decode("ascii")
     value = value.lower()
     value = re.sub(r"[^a-z0-9]+", "-", value)
-    return value.strip("-") or "lied"
+    return value.strip("-") or "stuk"
 
 
 def first_letter(value):
@@ -128,7 +115,6 @@ def parse_metadata(text):
         "taal": "",
         "status": "",
     }
-
     match = META_RE.match(text)
     if not match:
         return meta, text.strip()
@@ -139,7 +125,6 @@ def parse_metadata(text):
         key, value = line.split(":", 1)
         key = key.strip().lower()
         value = value.strip()
-
         if key in {"tags", "onderwerpen"}:
             meta["tags"] = parse_tags(value)
         elif key == "akkoorden":
@@ -163,6 +148,24 @@ def parse_writing_note(text):
     return match.group(1).strip(), text[match.end():].strip()
 
 
+def parse_article_metadata(text):
+    meta = {"titel": "", "artiest": "", "intro": ""}
+    match = ARTICLE_META_RE.match(text)
+    if not match:
+        return meta, text.strip()
+
+    for line in match.group(1).splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        key = key.strip().lower()
+        value = value.strip()
+        if key in meta:
+            meta[key] = value
+
+    return meta, text[match.end():].strip()
+
+
 def service():
     credentials, _ = google.auth.default(
         scopes=["https://www.googleapis.com/auth/drive.readonly"]
@@ -177,7 +180,6 @@ def list_docs(api, folder_id):
     )
     out = []
     token = None
-
     while True:
         response = api.files().list(
             q=q,
@@ -190,6 +192,31 @@ def list_docs(api, folder_id):
         token = response.get("nextPageToken")
         if not token:
             return out
+
+
+def find_folder_by_name(api, name):
+    safe_name = name.replace("\\", "\\\\").replace("'", "\\'")
+    q = (
+        f"name='{safe_name}' and "
+        f"mimeType='{GOOGLE_FOLDER_MIME}' and trashed=false"
+    )
+    response = api.files().list(
+        q=q,
+        spaces="drive",
+        fields="files(id,name)",
+        orderBy="modifiedTime desc",
+        pageSize=20,
+    ).execute(num_retries=DRIVE_RETRIES)
+
+    folders = response.get("files", [])
+    if not folders:
+        return None
+    if len(folders) > 1:
+        print(
+            f"Waarschuwing: meerdere Drive-mappen met naam '{name}' gevonden; "
+            "de eerste zichtbare map wordt gebruikt."
+        )
+    return folders[0]["id"]
 
 
 def export_text(api, file_id):
@@ -221,12 +248,10 @@ def topic_link(tag):
 def writing_note_html(note):
     if not note:
         return ""
-
     paragraphs = []
     for block in re.split(r"\n\s*\n", note.strip()):
         escaped = html.escape(block.strip()).replace("\n", "<br>\n")
         paragraphs.append(f"<p>{escaped}</p>")
-
     return (
         '<aside class="writing-note">\n'
         "<h2>Schrijfnotitie</h2>\n"
@@ -336,9 +361,7 @@ def write_index(items):
             tags_search = html.escape(" ".join(item["tags"]).casefold(), quote=True)
             language = html.escape(item["taal"], quote=True)
             chords = "true" if item["akkoorden"] else "false"
-
-            meta_parts = compact_meta(item)
-            meta_bits = [html.escape(part) for part in meta_parts]
+            meta_bits = [html.escape(part) for part in compact_meta(item)]
             if item["tags"]:
                 meta_bits.extend(topic_link(tag) for tag in item["tags"][:3])
 
@@ -460,11 +483,9 @@ def write_connections(items):
     ]
 
     written = 0
-
     for connection in CONNECTIONS:
         matching = []
         wanted = {tag.casefold() for tag in connection["tags"]}
-
         for item in items:
             item_tags = {tag.casefold() for tag in item["tags"]}
             matched = sorted(item_tags & wanted)
@@ -481,7 +502,6 @@ def write_connections(items):
             f'<p class="connection-description">{html.escape(connection["description"])}</p>',
             '<ul class="connection-songs">',
         ]
-
         for item, matched in sorted(matching, key=lambda x: x[0]["title"].casefold()):
             title = html.escape(item["title"])
             matched_text = " · ".join(html.escape(tag) for tag in matched)
@@ -491,7 +511,6 @@ def write_connections(items):
                 f'<span class="connection-match">{matched_text}</span>',
                 "</li>",
             ]
-
         lines += ["</ul>", "</section>", ""]
 
     if not written:
@@ -503,6 +522,113 @@ def write_connections(items):
         "\n".join(lines) + "\n",
         encoding="utf-8",
     )
+
+
+def article_page(item):
+    return (
+        "---\n"
+        "layout: article\n"
+        f'title: "{fm(item["title"])}"\n'
+        f'artist: "{fm(item["artist"])}"\n'
+        f'intro: "{fm(item["intro"])}"\n'
+        f'permalink: /over-liedjes/{item["slug"]}/\n'
+        "---\n\n"
+        f'{item["text"].strip()}\n'
+    )
+
+
+def write_article_index(items):
+    lines = [
+        "---",
+        "layout: default",
+        'title: "Over liedjes"',
+        "permalink: /over-liedjes/",
+        "---",
+        "",
+        "# Over liedjes",
+        "",
+        "Persoonlijke stukken over liedjes die iets openbreken, en over wat daarin raakt aan mijn eigen schrijven.",
+        "",
+        '<div class="article-list">',
+    ]
+
+    if not items:
+        lines.append("<p>Nog geen stukken gepubliceerd.</p>")
+    else:
+        for item in sorted(items, key=lambda x: x["title"].casefold()):
+            title = html.escape(item["title"])
+            artist = html.escape(item["artist"])
+            intro = html.escape(item["intro"])
+            display_title = f"{title} — {artist}" if artist else title
+
+            lines += [
+                '<article class="article-card">',
+                f'<h2><a href="{{{{ site.baseurl }}}}/over-liedjes/{item["slug"]}/">{display_title}</a></h2>',
+            ]
+            if intro:
+                lines.append(f'<p>{intro}</p>')
+            lines.append("</article>")
+
+    lines += ["</div>", ""]
+    (ARTICLES / "index.md").write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_articles(api):
+    ARTICLES.mkdir(parents=True, exist_ok=True)
+    for path in ARTICLES.glob("*.md"):
+        path.unlink()
+
+    folder_id = os.environ.get("GOOGLE_DRIVE_ARTICLES_FOLDER_ID", "").strip()
+    if not folder_id:
+        folder_id = find_folder_by_name(api, "overliedjes")
+
+    if not folder_id:
+        print(
+            "Waarschuwing: Drive-map 'overliedjes' is niet zichtbaar. "
+            "Deel de map met dezelfde service-account als 'gepubliceerd'."
+        )
+        write_article_index([])
+        return []
+
+    docs = list_docs(api, folder_id)
+    items = []
+    used_slugs = set()
+
+    for doc in docs:
+        raw = export_text(api, doc["id"])
+        meta, body = parse_article_metadata(raw)
+
+        doc_name = doc["name"].strip()
+        title = (meta["titel"] or doc_name).strip()
+        artist = meta["artiest"].strip()
+
+        if not artist and " — " in title:
+            maybe_title, maybe_artist = title.rsplit(" — ", 1)
+            if maybe_title.strip() and maybe_artist.strip():
+                title = maybe_title.strip()
+                artist = maybe_artist.strip()
+
+        slug = slugify(title)
+        if slug in used_slugs:
+            slug = f"{slug}-{doc['id'][:6].lower()}"
+        used_slugs.add(slug)
+
+        item = {
+            "title": title,
+            "slug": slug,
+            "artist": artist,
+            "intro": meta["intro"].strip(),
+            "text": body.strip(),
+        }
+        items.append(item)
+
+        (ARTICLES / f"{slug}.md").write_text(
+            article_page(item),
+            encoding="utf-8",
+        )
+
+    write_article_index(items)
+    return items
 
 
 def main():
@@ -544,6 +670,7 @@ def main():
     write_chords(items)
     write_topics(items)
     write_connections(items)
+    articles = write_articles(api)
 
     public_search = [
         {
@@ -562,9 +689,11 @@ def main():
         encoding="utf-8",
     )
 
-    print(f"Gesynchroniseerd: {len(items)} lied(en).")
+    print(
+        f"Gesynchroniseerd: {len(items)} lied(en), "
+        f"{len(articles)} stuk(ken) over liedjes."
+    )
 
 
 if __name__ == "__main__":
     main()
-
