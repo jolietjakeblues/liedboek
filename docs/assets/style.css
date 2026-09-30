@@ -10,7 +10,6 @@ body {
   line-height: 1.7;
 }
 
-.site-header,
 main,
 footer {
   width: min(760px, calc(100% - 2.5rem));
@@ -18,6 +17,8 @@ footer {
 }
 
 .site-header {
+  width: min(1100px, calc(100% - 2.5rem));
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -321,12 +322,12 @@ footer p {
   margin-top: 2.8rem;
 }
 
-/* Spotify embeds in Over liedjes */
 .spotify-embed {
   margin: 2rem 0;
 }
 
-.spotify-embed iframe {
+.spotify-embed iframe,
+.article-body iframe {
   display: block;
   width: 100%;
   border: 0;

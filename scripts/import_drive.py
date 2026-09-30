@@ -34,7 +34,6 @@ ARTICLE_META_RE = re.compile(
     r"^\s*\[\[overliedjes\]\]\s*\n(.*?)\n\s*\[\[/overliedjes\]\]\s*\n?",
     re.I | re.S,
 )
-
 SPOTIFY_RE = re.compile(
     r"\[\[spotify\]\]\s*"
     r"https?://open\.spotify\.com/(?:intl-[^/]+/)?track/([A-Za-z0-9]+)(?:\?[^\s<]*)?"
@@ -173,7 +172,6 @@ def parse_article_metadata(text):
     return meta, text[match.end():].strip()
 
 
-
 def render_spotify_blocks(text):
     def replace(match):
         track_id = match.group(1)
@@ -188,7 +186,6 @@ def render_spotify_blocks(text):
             'title="Spotify-player"></iframe>\n'
             '</div>\n\n'
         )
-
     return SPOTIFY_RE.sub(replace, text)
 
 
@@ -215,6 +212,31 @@ def list_docs(api, folder_id):
             pageToken=token,
         ).execute(num_retries=DRIVE_RETRIES)
         out += response.get("files", [])
+        token = response.get("nextPageToken")
+        if not token:
+            return out
+
+
+def list_article_files(api, folder_id):
+    q = f"'{folder_id}' in parents and trashed=false"
+    out = []
+    token = None
+    while True:
+        response = api.files().list(
+            q=q,
+            spaces="drive",
+            fields="nextPageToken, files(id,name,mimeType,modifiedTime)",
+            orderBy="name_natural",
+            pageToken=token,
+        ).execute(num_retries=DRIVE_RETRIES)
+        for item in response.get("files", []):
+            name = item["name"].lower()
+            if (
+                item["mimeType"] == GOOGLE_DOC_MIME
+                or name.endswith(".md")
+                or item["mimeType"] in {"text/markdown", "text/plain"}
+            ):
+                out.append(item)
         token = response.get("nextPageToken")
         if not token:
             return out
@@ -258,6 +280,27 @@ def export_text(api, file_id):
         .replace("\r\n", "\n")
         .replace("\r", "\n")
     )
+
+
+def download_text(api, file_id):
+    request = api.files().get_media(fileId=file_id)
+    buffer = io.BytesIO()
+    downloader = MediaIoBaseDownload(buffer, request)
+    done = False
+    while not done:
+        _, done = downloader.next_chunk(num_retries=DRIVE_RETRIES)
+    return (
+        buffer.getvalue()
+        .decode("utf-8-sig")
+        .replace("\r\n", "\n")
+        .replace("\r", "\n")
+    )
+
+
+def read_article_file(api, item):
+    if item["mimeType"] == GOOGLE_DOC_MIME:
+        return export_text(api, item["id"])
+    return download_text(api, item["id"])
 
 
 def fm(value):
@@ -370,7 +413,6 @@ def write_index(items):
         "",
         '<nav class="alphabet" aria-label="Alfabet">',
     ]
-
     for letter in groups:
         lines.append(f'<a href="#letter-{letter.lower()}">{letter}</a>')
     lines += ["</nav>", "", '<div id="song-list" class="song-groups">']
@@ -586,7 +628,6 @@ def write_article_index(items):
             artist = html.escape(item["artist"])
             intro = html.escape(item["intro"])
             display_title = f"{title} — {artist}" if artist else title
-
             lines += [
                 '<article class="article-card">',
                 f'<h2><a href="{{{{ site.baseurl }}}}/over-liedjes/{item["slug"]}/">{display_title}</a></h2>',
@@ -616,16 +657,22 @@ def write_articles(api):
         write_article_index([])
         return []
 
-    docs = list_docs(api, folder_id)
+    source_files = list_article_files(api, folder_id)
     items = []
     used_slugs = set()
 
-    for doc in docs:
-        raw = export_text(api, doc["id"])
+    for source in source_files:
+        raw = read_article_file(api, source)
         meta, body = parse_article_metadata(raw)
+
+        # Markdown en ruwe HTML blijven verder volledig intact.
+        # Alleen de optionele [[spotify]] shorthand wordt omgezet.
         body = render_spotify_blocks(body)
 
-        doc_name = doc["name"].strip()
+        doc_name = source["name"].strip()
+        if doc_name.lower().endswith(".md"):
+            doc_name = doc_name[:-3].rstrip()
+
         title = (meta["titel"] or doc_name).strip()
         artist = meta["artiest"].strip()
 
@@ -637,7 +684,7 @@ def write_articles(api):
 
         slug = slugify(title)
         if slug in used_slugs:
-            slug = f"{slug}-{doc['id'][:6].lower()}"
+            slug = f"{slug}-{source['id'][:6].lower()}"
         used_slugs.add(slug)
 
         item = {
