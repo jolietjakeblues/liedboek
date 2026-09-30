@@ -22,3 +22,7 @@ Daarna start de bestaande workflow gewoon zoals nu.
 Nieuwe navigatie:
 
 `Liedjes · Over liedjes · Onderwerpen · Dwarsverbanden · Uitgangspunten · Over`
+
+## Spotify
+
+De importer ondersteunt nu ook `[[spotify]] ... [[/spotify]]` in stukken onder **Over liedjes**.
