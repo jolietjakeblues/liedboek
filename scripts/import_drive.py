@@ -35,6 +35,13 @@ ARTICLE_META_RE = re.compile(
     re.I | re.S,
 )
 
+SPOTIFY_RE = re.compile(
+    r"\[\[spotify\]\]\s*"
+    r"https?://open\.spotify\.com/(?:intl-[^/]+/)?track/([A-Za-z0-9]+)(?:\?[^\s<]*)?"
+    r"\s*\[\[/spotify\]\]",
+    re.I,
+)
+
 STATUS_LABELS = {
     "concept": "Concept",
     "werkversie": "Werkversie",
@@ -164,6 +171,25 @@ def parse_article_metadata(text):
             meta[key] = value
 
     return meta, text[match.end():].strip()
+
+
+
+def render_spotify_blocks(text):
+    def replace(match):
+        track_id = match.group(1)
+        return (
+            '\n\n<div class="spotify-embed">\n'
+            '<iframe '
+            'src="https://open.spotify.com/embed/track/' + track_id + '" '
+            'width="100%" height="352" frameborder="0" '
+            'allowfullscreen="" '
+            'allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" '
+            'loading="lazy" '
+            'title="Spotify-player"></iframe>\n'
+            '</div>\n\n'
+        )
+
+    return SPOTIFY_RE.sub(replace, text)
 
 
 def service():
@@ -597,6 +623,7 @@ def write_articles(api):
     for doc in docs:
         raw = export_text(api, doc["id"])
         meta, body = parse_article_metadata(raw)
+        body = render_spotify_blocks(body)
 
         doc_name = doc["name"].strip()
         title = (meta["titel"] or doc_name).strip()

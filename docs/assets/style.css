@@ -320,3 +320,15 @@ footer p {
 .article-body h2 {
   margin-top: 2.8rem;
 }
+
+/* Spotify embeds in Over liedjes */
+.spotify-embed {
+  margin: 2rem 0;
+}
+
+.spotify-embed iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+}

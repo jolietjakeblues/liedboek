@@ -43,3 +43,15 @@ De stukken komen automatisch onder:
 ```
 
 en krijgen elk hun eigen pagina.
+
+## Spotify-player
+
+Een Spotify-track kun je in een stuk opnemen met:
+
+```text
+[[spotify]]
+https://open.spotify.com/track/2Kokzpn3S585hQvt3nsPLr
+[[/spotify]]
+```
+
+Tijdens de build wordt dit blok vervangen door een ingebedde Spotify-player. De markeringen zelf verschijnen niet op de site.
