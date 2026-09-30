@@ -1,50 +1,24 @@
 # Installeren
 
-Deze update bouwt drie afgesproken functies:
+Deze update voegt **Over liedjes** toe als aparte inhoudssoort.
 
-1. **Dwarsverbanden** op basis van bestaande tags.
-2. **Schrijfnotities** als optioneel blok per Google Doc.
-3. Een **push-trigger op `main`**, zodat een merge meteen een nieuwe Pages-build start.
+Vervang/toevoegen:
 
-## Bestanden vervangen
-
-Kopieer deze bestanden naar dezelfde paden in de repository:
-
-- `.github/workflows/build-liedboek.yml`
 - `scripts/import_drive.py`
 - `docs/_layouts/default.html`
+- `docs/_layouts/article.html`
 - `docs/index.md`
 - `docs/assets/style.css`
-- `docs/dwarsverbanden.md`
-- `PUBLICEREN.md`
+- `PUBLICEREN-OVER-LIEDJES.md`
 
-Werk bij voorkeur in een nieuwe branch en maak daarna een pull request naar `main`.
+De importer zoekt automatisch naar de Drive-map `overliedjes`.
 
-## Test na de merge
+Belangrijk: deel die map met:
 
-De merge naar `main` hoort nu vanzelf **Build liedboek** te starten.
+`liedboek-sync@project-45e94b35-46b4-4c56-98a.iam.gserviceaccount.com`
 
-Controleer daarna:
+Daarna start de bestaande workflow gewoon zoals nu.
 
-- `/dwarsverbanden/`
-- een lied zonder schrijfnotitie
-- een lied mét schrijfnotitie
-- de bestaande pagina `/liedjes/`
-- een lied met akkoorden
+Nieuwe navigatie:
 
-## Voorbeeld schrijfnotitie
-
-Direct na `[[/liedboek]]` en vóór de tekst:
-
-```text
-[[schrijfnotitie]]
-Vlak voor een optreden zei iemand: "Come on, let's kick some country ass."
-In mijn hoofd werd dat meteen een lied.
-[[/schrijfnotitie]]
-```
-
-Het blok is optioneel.
-
-## Opmerking
-
-De ChatGPT-GitHub-koppeling kan de repository wel lezen, maar weigert op dit moment het aanmaken van branches met HTTP 403. Daarom is deze update als compleet pakket gemaakt in plaats van rechtstreeks als PR.
+`Liedjes · Over liedjes · Onderwerpen · Dwarsverbanden · Uitgangspunten · Over`
